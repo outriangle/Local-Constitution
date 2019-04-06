@@ -1,0 +1,59 @@
+\documentclass{article}
+\usepackage[T1]{fontenc}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{}
+\usepackage{calc, tocloft, etoolbox}
+\makeatletter
+\providecommand{\subtitle}[1]{% add subtitle to \maketitle
+\apptocmd{\@title}{\par {\large #1 \par}}{}{}
+}
+\makeatother
+% Remove numbering
+
+% Adjust numbering
+\renewcommand{\thesection}{}
+\renewcommand{\thesubsection}{\textsc{Part \Roman{subsection}.}}
+\renewcommand{\thesubsubsection}{\textsc{Article \arabic{subsubsection}.}}
+% Adjust section number spacing
+\setlength\cftsecnumwidth{0pt}
+\setlength\cftsubsecnumwidth{\widthof{\textbf{\textsc{Part X.}}}}
+\setlength\cftsubsubsecnumwidth{\widthof{\textbf{\textsc{Article X.}}}}
+% Adjust paragraph spacing
+\setlength\parindent{0pt}
+\setlength\parskip{1em}
+
+\title{\textsc{Oklahoma Chapter of Triangle}}
+\subtitle{\textsc{Local Constitution and Bylaws}}
+
+\begin{document}
+
+% Custom section headers (small caps)
+\let\oldsec\section
+\let\oldsubsec\subsection
+\let\oldsubsubsec\subsubsection
+\renewcommand{\part}[1]{\oldsubsec{\textsc{#1}}}
+\newcommand{\article}[1]{\oldsubsubsec{\textsc{#1}}}
+% Custom section command
+\newcounter{ArticleSection}[subsubsection]
+\renewcommand{\section}{
+    \stepcounter{ArticleSection}
+    \textbf{Section \arabic{ArticleSection}:\ }
+}
+
+\setcounter{tocdepth}{3}
+
+\maketitle
+\tableofcontents
+
+\pagebreak
+\oldsec{Constitution}
+\input{LocalConstitution}
+
+\pagebreak
+\oldsec{Bylaws}
+\input{Bylaws}
+
+\oldsec{Rules and Regulations}
+\input{RulesAndRegulations}
+
+\end{document}
