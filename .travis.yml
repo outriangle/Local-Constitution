@@ -2,6 +2,10 @@
 
 language: generic
 
+branches:
+  except:
+    - /^build/ # exclude auto-generated releases
+
 before_install:
   # Install makeindex, if you do not use an index you can remove this (also remove the extra makeindex call).
   - sudo apt-get install texlive-binaries
@@ -40,7 +44,7 @@ script:
 before_deploy:
   - git config --local user.name "Noah Craig"
   - git config --local user.email "noahcraig123@gmail.com"
-  - export TRAVIS_TAG=${TRAVIS_TAG:-$(date +'%Y.%m.%d')-$(git log --format=%h -1)}
+  - export TRAVIS_TAG=${TRAVIS_TAG:-build-$(date +'%Y.%m.%d')-$(git log --format=%h -1)}
   - git tag $TRAVIS_TAG
 deploy:
   provider: releases
@@ -50,4 +54,4 @@ deploy:
   skip_cleanup: true
   on:
     repo: Tyraeis/OU-Triangle-Local-Constitution
-    branch: ci
+    branch: master
