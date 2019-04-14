@@ -41,17 +41,9 @@ cache:
     - $HOME/.cache/Tectonic
 script:
   - tectonic ./main.tex --print
-before_deploy:
-  - git config --local user.name "Noah Craig"
-  - git config --local user.email "noahcraig123@gmail.com"
-  - export TRAVIS_TAG=${TRAVIS_TAG:-build-$(date +'%Y.%m.%d')-$(git log --format=%h -1)}
-  - git tag $TRAVIS_TAG
 deploy:
-  provider: releases
-  api_key:
-    secure: A+0Yd6hMkXADodOuJUha78J/Gfroa9+8dWXGTsYJo2oeZkUyel9U25lv9fqnYuJ3dDFrzQiL4d6FEB4hTsLrLYj8IKkO6rAPoczrU1+atC0Le2SmZwMMlCzsExCZZzVxYRPwFJ/jMPlnmYIjsf+dAsEPo+CCwH2Bi94LZdUI22Rx/Y9FZUl/AuYRygp4KPguQO5nOSWklJ0dmSKMMRpe7UQnC4k7/gjPEHH5eGIJG++FmepfMtKfV7GBmorwt0NZ9qHdTBb2/APMEigQBZ4SExDxgja+YaqD2a//jZWj2uf7aB4DZhPX9/dp63+lsQIUqDjaUkTBK5ihx8A2GeyM/bbdNLR7XxDkttffEzQCQ+TxL/0hWrB8D+E/0JezGXYAKworGYuQ6fiJg4eSurvF7FM6zejZ0yXoloqcc3OFkIPZIDYR6pz6zdDTyVr87Xi68Er+orm9HUsBCPHmaJ+92s7DtlkpHEckRZGSHxOdONhpPKeewVYquugkOhSXl0CnPx3MACUnNz4QeRpWobRbelG3I3T7Mnq38EylrdkOWTgUFSImnvg5cN1uVvOUBwTbDuEWHG43Hf9Ek7zBc0dFlEIPA0ACyq/1G8QV/2KOB4h2J1yJcTQ5yb7xA2BBZDnP5b/tTPVcmnSUVqXKmQeaAiPT4EIJ62ueGvaxgltaJ5M=
-  file: LocalConstitutionAndBylaws.pdf
+  provider: pages
   skip_cleanup: true
+  github_token: $GITHUB_TOKEN
   on:
-    repo: Tyraeis/OU-Triangle-Local-Constitution
     branch: master
