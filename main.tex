@@ -1,5 +1,7 @@
 \documentclass{article}
 \usepackage[T1]{fontenc}
+\usepackage{fontspec}
+\setmainfont{CMU Serif}
 \usepackage[hidelinks]{hyperref}
 \hypersetup{}
 \usepackage{calc, tocloft, etoolbox}
@@ -8,7 +10,6 @@
 \apptocmd{\@title}{\par {\large #1 \par}}{}{}
 }
 \makeatother
-% Remove numbering
 
 % Adjust numbering
 \renewcommand{\thesection}{}
@@ -25,7 +26,10 @@
 \title{\textsc{Oklahoma Chapter of Triangle}}
 \subtitle{\textsc{Local Constitution and Bylaws}}
 
+\listfiles
+
 \begin{document}
+
 
 % Custom section headers (small caps)
 \let\oldsec\section
