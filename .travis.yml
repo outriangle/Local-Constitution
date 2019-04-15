@@ -9,9 +9,9 @@ tex-config:
 - tex-scheme=small
 - push-type=none
 - build-pattern=main.tex
-#- latexmk-flags=-dvi -f
+- latexmk-flags=-xelatex
 # Check at https://www.ctan.org/pkg/package-name in which TeX Live package a LaTeX package is contained.
-- packages=collection-latex, hyperref, etoolbox, fontenc, fontspec, cm-unicode, calc, tocloft
+- packages=collection-latex, hyperref, etoolbox, fontspec, cm-unicode, tocloft
 
 # We will use the docker image from https://hub.docker.com/r/strauman/travis-latexbuild/
 script:
