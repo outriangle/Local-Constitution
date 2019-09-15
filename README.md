@@ -4,5 +4,5 @@ This repository houses the Local Constitution and related documents for the Okla
 
 Documents are automatically built with every commit. You can view the generated documents here:
 
- - (Local Consitution)[https://outriangle.github.io/Local-Constitution/LocalConstitutionAndBylaws.pdf]
- - (Minimum Expectations)[https://outriangle.github.io/Local-Constitution/MinimumExpectations.pdf]
+ - [Local Consitution](https://outriangle.github.io/Local-Constitution/LocalConstitutionAndBylaws.pdf)
+ - [Minimum Expectations](https://outriangle.github.io/Local-Constitution/MinimumExpectations.pdf)
