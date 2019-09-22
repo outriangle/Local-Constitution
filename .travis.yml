@@ -8,7 +8,7 @@ services:   docker
 tex-config:
 - tex-scheme=small
 - push-type=none
-- build-pattern=main.tex
+- build-pattern=main.tex,MinimumExpectations.tex
 - latexmk-flags=-pdf
 # Check at https://www.ctan.org/pkg/package-name in which TeX Live package a LaTeX package is contained.
 - packages=collection-latex, collection-fontsrecommended, hyperref, etoolbox, tocloft
@@ -20,6 +20,7 @@ script:
 before_deploy:
   - mkdir pages
   - cp main.pdf pages/LocalConstitutionAndBylaws.pdf
+  - cp MinimumExpectations.pdf pages/MinimumExpectations.pdf
 deploy:
   provider: pages
   local_dir: pages
