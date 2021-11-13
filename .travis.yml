@@ -1,21 +1,40 @@
 # https://github.com/PHPirates/travis-ci-latex-pdf
+language: generic
 
-sudo:       required
-language:   generic
-services:   docker
+dist: bionic
 
-# Docs of the options: https://github.com/Strauman/travis-latexbuild/tree/master#configuration-options
-tex-config:
-- tex-scheme=small
-- push-type=none
-- build-pattern=main.tex,MinimumExpectations.tex
-- latexmk-flags=-pdf
-# Check at https://www.ctan.org/pkg/package-name in which TeX Live package a LaTeX package is contained.
-- packages=collection-latex, collection-fontsrecommended, hyperref, etoolbox, tocloft
+## Uncomment the following lines if you require extra dependencies
+#before_install:
+# - sudo apt-get install ghostscript # If you use latex > dvips > ps2pdf
+# - sudo apt-get install python-pygments # If you use the minted package
+  # If you use custom fonts:
+# - mkdir $HOME/.fonts
+# - cp -a $TRAVIS_BUILD_DIR/src/fonts/. $HOME/.fonts/
+# - fc-cache -f -v
 
-# We will use the docker image from https://hub.docker.com/r/strauman/travis-latexbuild/
+install:
+  - source ./texlive/texlive_install.sh
+
+cache:
+  directories:
+    - /tmp/texlive
+    - $HOME/.texlive
+
+# Change working directory so including files will work
+before_script: cd $TRAVIS_BUILD_DIR
 script:
-- docker run --mount src=$TRAVIS_BUILD_DIR/,target=/repo,type=bind strauman/travis-latexbuild:small
+  # Texliveonfly will download packages automatically
+  - texliveonfly main.tex
+  - texliveonfly MinimumExpectations.tex
+  # You can use latexmk to automatically handle bibtex and references (recommended)
+  - latexmk -pdf main.tex
+  - latexmk -pdf MinimumExpectations.tex
+
+  # But you could use any other compiler as well instead of latexmk. Example:
+#  - pdflatex main.tex
+#  - bibtex main
+#  - pdflatex main.tex
+#  - pdflatex main.tex # Compile twice to fix references
 
 before_deploy:
   - mkdir pages
