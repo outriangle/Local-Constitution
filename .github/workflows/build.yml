@@ -37,6 +37,12 @@ jobs:
           texliveonfly MinimumExpectations.tex
           latexmk -pdf main.tex
           latexmk -pdf MinimumExpectations.tex
+      
+      - name: Upload PDFs
+        uses: actions/upload-artifact@v3.0.0
+        with:
+          name: pdfs
+          path: "*.pdf"
 
   deploy:
     # run only on pushes, not pull requests
@@ -46,13 +52,17 @@ jobs:
     
     runs-on: ubuntu-latest
     steps:
+    # Download the PDFs from previous step
+    - name: Download PDFs
+      uses: actions/download-artifact@v3.0.0
+      with:
+        name: pdfs
+    
     # Copy the PDFs to a new "pages" subdirectory
     - name: Setup Github Pages deployment
       run: |
-        cd $GITHUB_WORKSPACE
         mkdir pages
-        cp main.pdf pages/LocalConstitutionAndBylaws.pdf
-        cp MinimumExpectations.pdf pages/MinimumExpectations.pdf
+        cp *.pdf pages/
   
     # Deploy the "pages" directory to Github Pages
     - name: Pages Deploy
