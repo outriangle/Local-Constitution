@@ -68,4 +68,4 @@ jobs:
     - name: Pages Deploy
       uses: crazy-max/ghaction-github-pages@v2.6.0
       with:
-        build-dir: pages
+        build_dir: pages
