@@ -27,17 +27,12 @@ jobs:
             $HOME/.texlive
           key: ${{ runner.os }}-texlive-install
 
-      # Installs texlive, with the "texliveonfly" and "latexmk" programs
-      - name: Install texlive
-        run: |
-          cd $GITHUB_WORKSPACE
-          source ./texlive/texlive_install.sh
-
-      # Build the PDFs
+      # Install texlive and build the PDFs
       # texliveonly will download packages automatically, then latexmk will make the actual PDFs
       - name: Run a multi-line script
         run: |
           cd $GITHUB_WORKSPACE
+          source ./texlive/texlive_install.sh
           texliveonfly main.tex
           texliveonfly MinimumExpectations.tex
           latexmk -pdf main.tex
