@@ -1,0 +1,66 @@
+name: CI
+
+on:
+  # Triggers the workflow on push or pull request events but only for the master branch
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+      
+      # Cache the texlive packages so they don't have to be reinstalled every time
+      - name: Cache
+        uses: actions/cache@v3.0.2
+        with:
+          path: |
+            /tmp/texlive
+            $HOME/.texlive
+          key: ${{ runner.os }}-texlive-install
+
+      # Installs texlive, with the "texliveonfly" and "latexmk" programs
+      - name: Install texlive
+        run: |
+          cd $GITHUB_WORKSPACE
+          source ./texlive/texlive_install.sh
+
+      # Build the PDFs
+      # texliveonly will download packages automatically, then latexmk will make the actual PDFs
+      - name: Run a multi-line script
+        run: |
+          cd $GITHUB_WORKSPACE
+          texliveonfly main.tex
+          texliveonfly MinimumExpectations.tex
+          latexmk -pdf main.tex
+          latexmk -pdf MinimumExpectations.tex
+
+  deploy:
+    # run only on pushes, not pull requests
+    if: ${{ github.event_name == 'push' }}
+    # run only after building the PDFs
+    needs: build
+    
+    runs-on: ubuntu-latest
+    steps:
+    # Copy the PDFs to a new "pages" subdirectory
+    - name: Setup Github Pages deployment
+      run: |
+        cd $GITHUB_WORKSPACE
+        mkdir pages
+        cp main.pdf pages/LocalConstitutionAndBylaws.pdf
+        cp MinimumExpectations.pdf pages/MinimumExpectations.pdf
+  
+    # Deploy the "pages" directory to Github Pages
+    - name: Pages Deploy
+      uses: crazy-max/ghaction-github-pages@v2.6.0
+      with:
+        build-dir: pages
