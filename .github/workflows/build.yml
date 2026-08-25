@@ -16,11 +16,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v7
       
       # Cache the texlive packages so they don't have to be reinstalled every time
       - name: Cache
-        uses: actions/cache@v3.0.2
+        uses: actions/cache@v6.1.0
         with:
           path: |
             /tmp/texlive
@@ -40,7 +40,7 @@ jobs:
           mv main.pdf LocalConstitutionAndBylaws.pdf
       
       - name: Upload PDFs
-        uses: actions/upload-artifact@v3.0.0
+        uses: actions/upload-artifact@v7.0.1
         with:
           name: pdfs
           path: "*.pdf"
@@ -55,7 +55,7 @@ jobs:
     steps:
     # Download the PDFs from previous step
     - name: Download PDFs
-      uses: actions/download-artifact@v4.1.7
+      uses: actions/download-artifact@v8.0.1
       with:
         name: pdfs
     
@@ -67,7 +67,7 @@ jobs:
   
     # Deploy the "pages" directory to Github Pages
     - name: Pages Deploy
-      uses: crazy-max/ghaction-github-pages@v2.6.0
+      uses: crazy-max/ghaction-github-pages@v5.0.0
       with:
         build_dir: pages
       env:
